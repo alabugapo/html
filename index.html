@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Приглашение ❤️</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #ffd6e7, #ffeef5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 430px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, .15);
+            text-align: center;
+            position: relative;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .page {
+            display: none;
+            animation: fade .5s;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fade {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .emoji {
+            font-size: 120px;
+            margin-bottom: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        h1 {
+            font-size: 26px;
+            margin-bottom: 30px;
+            color: #ff4f8b;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+            height: 80px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 22px;
+            border-radius: 18px;
+            padding: 18px 32px;
+            font-weight: bold;
+            z-index: 10;
+        }
+
+        #yesBtn {
+            background: #ff4f8b;
+            color: white;
+            box-shadow: 0 10px 20px rgba(255, 79, 139, .3);
+            position: relative;
+            z-index: 5;
+        }
+
+        #yesBtn:hover {
+            transform: scale(1.08);
+        }
+
+        #noBtn {
+            background: white;
+            border: 3px solid #ff8bb8;
+            color: #ff4f8b;
+        }
+
+        /* Сетка для дней недели */
+        .options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .options button:last-child:nth-child(odd) {
+            grid-column: span 2;
+        }
+
+        .options button {
+            background: white;
+            color: #ff4f8b;
+            border: 2px solid #ffb3d1;
+            padding: 14px 10px;
+            font-size: 18px;
+        }
+
+        .options button:hover {
+            background: #ff4f8b;
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .bigHeart {
+            font-size: 120px;
+            animation: heart 1s infinite;
+            margin-top: 20px;
+        }
+
+        @keyframes heart {
+            50% {
+                transform: scale(1.15);
+            }
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 22px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .hearts {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            animation: fly linear forwards;
+        }
+
+        @keyframes fly {
+            from {
+                transform: translateY(100vh) scale(.5);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-120vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hearts"></div>
+
+    <div class="container">
+
+        <div id="page1" class="page active">
+            <div class="emoji">🐰</div>
+            <h1 id="question">Ты пойдёшь со мной на свидание? ❤️</h1>
+            <div class="buttons">
+                <button id="yesBtn">❤️ Да</button>
+                <button id="noBtn">💔 Нет</button>
+            </div>
+        </div>
+
+        <div id="page2" class="page">
+            <h1>📅 Когда тебе удобно?</h1>
+            <div class="options">
+                <button class="day">Понедельник</button>
+                <button class="day">Вторник</button>
+                <button class="day">Среда</button>
+                <button class="day">Четверг</button>
+                <button class="day">Пятница</button>
+                <button class="day">Суббота</button>
+                <button class="day">Воскресенье</button>
+            </div>
+        </div>
+
+        <div id="page3" class="page">
+            <h1>⏰ Во сколько?</h1>
+            <div class="options">
+                <button class="time">14:00</button>
+                <button class="time">16:00</button>
+                <button class="time">18:00</button>
+                <button class="time">20:00</button>
+            </div>
+        </div>
+
+        <div id="page4" class="page">
+            <h1>📍 Куда пойдём?</h1>
+            <div class="options">
+                <button class="place">🍕 Кафе</button>
+                <button class="place">🎬 Кино</button>
+                <button class="place">🌳 Парк</button>
+                <button class="place">🍦 Мороженое</button>
+                <button class="place">🌅 Прогулка</button>
+                <button class="place">☕ Кофейня</button>
+            </div>
+        </div>
+
+        <div id="page5" class="page">
+            <h1>❤️ Отлично! ❤️</h1>
+            <p id="result"></p>
+            <div class="bigHeart">💖</div>
+        </div>
+
+    </div>
+
+    <script>
+        const pages = document.querySelectorAll(".page");
+        const yesBtn = document.getElementById("yesBtn");
+        const noBtn = document.getElementById("noBtn");
+        const question = document.getElementById("question");
+
+        let noCount = 0;
+        let yesScale = 1;
+
+        let day = "";
+        let time = "";
+        let place = "";
+
+        const messages = [
+            "Ты уверен(а)? 🥺",
+            "Правда нет? 😭",
+            "Ну пожалуйста ❤️",
+            "Подумай ещё!",
+            "Мне будет очень приятно 💕",
+            "Не убегай 😢",
+            "Последний шанс ❤️"
+        ];
+
+        // ---------- Переход между страницами ----------
+        function showPage(id) {
+            pages.forEach(p => p.classList.remove("active"));
+            document.getElementById(id).classList.add("active");
+        }
+
+        // ---------- Кнопка "Нет" ----------
+        noBtn.addEventListener("click", () => {
+            noCount++;
+
+            // Меняем текст
+            question.textContent = messages[Math.min(noCount - 1, messages.length - 1)];
+
+            // Увеличиваем кнопку "Да"
+            yesScale += 0.15;
+            yesBtn.style.transform = `scale(${yesScale})`;
+
+            // Уменьшаем кнопку "Нет", но не даем ей пропасть полностью
+            let scale = Math.max(0.4, 1 - noCount * 0.1);
+
+            // Безопасные границы экрана
+            const maxX = window.innerWidth - noBtn.offsetWidth - 20;
+            const maxY = window.innerHeight - noBtn.offsetHeight - 20;
+
+            const randomX = Math.max(10, Math.random() * maxX);
+            const randomY = Math.max(10, Math.random() * maxY);
+
+            // Перемещаем кнопку по всему экрану
+            noBtn.style.position = "fixed";
+            noBtn.style.left = randomX + "px";
+            noBtn.style.top = randomY + "px";
+            noBtn.style.transform = `scale(${scale}) rotate(${Math.random() * 40 - 20}deg)`;
+        });
+
+        // ---------- Да ----------
+        yesBtn.addEventListener("click", () => {
+            showPage("page2");
+        });
+
+        // ---------- Выбор дня ----------
+        document.querySelectorAll(".day").forEach(btn => {
+            btn.onclick = () => {
+                day = btn.textContent;
+                showPage("page3");
+            };
+        });
+
+        // ---------- Выбор времени ----------
+        document.querySelectorAll(".time").forEach(btn => {
+            btn.onclick = () => {
+                time = btn.textContent;
+                showPage("page4");
+            };
+        });
+
+        // ---------- Выбор места ----------
+        document.querySelectorAll(".place").forEach(btn => {
+            btn.onclick = () => {
+                place = btn.textContent;
+
+                document.getElementById("result").innerHTML = `
+                    📅 <b>${day}</b><br><br>
+                    ⏰ <b>${time}</b><br><br>
+                    📍 <b>${place}</b><br><br>
+                    ❤️ Буду очень ждать нашей встречи!
+                `;
+
+                showPage("page5");
+            };
+        });
+
+        // ---------- Летающие сердечки ----------
+        function createHeart() {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.innerHTML = Math.random() > 0.5 ? "💖" : "❤️";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.animationDuration = (4 + Math.random() * 4) + "s";
+            heart.style.fontSize = (20 + Math.random() * 20) + "px";
+
+            document.querySelector(".hearts").appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 8000);
+        }
+
+        setInterval(createHeart, 400);
+    </script>
+
+</body>
+</html>
